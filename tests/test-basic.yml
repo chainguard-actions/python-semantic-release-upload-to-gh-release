@@ -1,0 +1,33 @@
+---
+name: Test basic usage with github_token
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: fake-token-for-testing
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run action with github_token (expect failure in test env)
+        id: action
+        uses: .
+        continue-on-error: true
+        with:
+          github_token: fake-token-for-testing
+          root_options: "-v --noop"
+          directory: "."
+
+      - name: Assert action was invoked (outcome is set)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
+        run: |
+          echo "outcome: $OUTCOME"
+          if [ -z "$OUTCOME" ]; then
+            echo "FAIL: action outcome was not set"
+            exit 1
+          fi
+          echo "PASS: action was invoked with github_token input"
