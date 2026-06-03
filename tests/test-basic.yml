@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test basic usage with github_token
 on:
   workflow_dispatch:
 jobs:
@@ -8,12 +8,18 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - id: action
         uses: .
-        with:
-          github_token: ${{ github.token }}
-          root_options: "--noop"
-          directory: "."
         continue-on-error: true
-      - name: Assert action ran
+        with:
+          github_token: fake-token-for-testing
+          root_options: "-v --noop"
+          directory: "."
+      - name: Assert action ran (step outcome is set)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
         run: |
-          echo "Action completed (may fail due to no release context, which is expected)"
-          echo "PASS"
+          echo "outcome: $OUTCOME"
+          if [ -z "$OUTCOME" ]; then
+            echo "FAIL: step outcome was not set"
+            exit 1
+          fi
+          echo "PASS: action ran with outcome=$OUTCOME"
