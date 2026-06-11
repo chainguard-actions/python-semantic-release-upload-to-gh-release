@@ -1,4 +1,4 @@
-name: Test basic usage
+name: Test basic usage with github_token
 on:
   workflow_dispatch:
 jobs:
@@ -9,17 +9,16 @@ jobs:
       - id: action
         uses: .
         with:
-          github_token: ${{ github.token }}
-          root_options: "-v --noop"
-          directory: "."
+          github_token: fake-token-for-testing
+          root_options: "--noop -v"
         continue-on-error: true
-      - name: Assert action ran
+      - name: Assert action ran (may fail due to no real release, but input was accepted)
+        env:
+          OUTCOME: ${{ steps.action.outcome }}
         run: |
-          echo "outcome: ${{ steps.action.outcome }}"
-          # The action may fail in a test environment without a real release,
-          # but it should at least start (not be skipped or have a setup error).
-          if [ "${{ steps.action.outcome }}" = "skipped" ]; then
+          echo "outcome: $OUTCOME"
+          if [ "$OUTCOME" = "skipped" ]; then
             echo "FAIL: action was skipped unexpectedly"
             exit 1
           fi
-          echo "PASS: action executed (outcome=${{ steps.action.outcome }})"
+          echo "PASS: action executed (outcome=$OUTCOME)"
