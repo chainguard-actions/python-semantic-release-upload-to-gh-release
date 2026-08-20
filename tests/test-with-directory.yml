@@ -1,5 +1,5 @@
 ---
-name: Test basic usage
+name: Test with custom directory
 
 on:
   workflow_dispatch:
@@ -23,11 +23,16 @@ jobs:
           git remote set-url origin "$GITHUB_WORKSPACE/.git-remote" 2>/dev/null || \
             git remote add origin "$GITHUB_WORKSPACE/.git-remote"
 
+      - name: Create a subdirectory for the directory input test
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/subdir"
+
       - id: action
         uses: .
         continue-on-error: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          directory: subdir
 
       - name: Assert action ran (failed gracefully on sentinel repo)
         env:
