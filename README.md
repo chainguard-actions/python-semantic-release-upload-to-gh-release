@@ -8,7 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
-| v9.8.5 | [`v9.8.5`](https://github.com/chainguard-actions/python-semantic-release-upload-to-gh-release/tree/v9.8.5) | — |
+| v9.8.5 | [`v9.8.5`](https://github.com/chainguard-actions/python-semantic-release-upload-to-gh-release/tree/v9.8.5) | [`fe6cc89`](https://github.com/python-semantic-release/upload-to-gh-release/commit/fe6cc89b43d8cbf0f9ce3285df3f77ff69c9b5d4) |
 | v9.8.6 | [`v9.8.6`](https://github.com/chainguard-actions/python-semantic-release-upload-to-gh-release/tree/v9.8.6) | [`0dcddac`](https://github.com/python-semantic-release/upload-to-gh-release/commit/0dcddac3ba7b691d7a3fd4586b640d7b214a0016) |
 | v9.8.7 | [`v9.8.7`](https://github.com/chainguard-actions/python-semantic-release-upload-to-gh-release/tree/v9.8.7) | [`17c75b7`](https://github.com/python-semantic-release/upload-to-gh-release/commit/17c75b706f81263690a0a0dc88d83415f783fc04) |
 | v9.8.8 | [`v9.8.8`](https://github.com/chainguard-actions/python-semantic-release-upload-to-gh-release/tree/v9.8.8) | [`fa2bbbf`](https://github.com/python-semantic-release/upload-to-gh-release/commit/fa2bbbf8e61069551abd513fdc5627e14c8637c7) |
