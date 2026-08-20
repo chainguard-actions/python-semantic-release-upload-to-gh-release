@@ -1,11 +1,11 @@
 ---
-name: Test basic usage - publish to GitHub Release
+name: Test noop mode - dry run with root_options
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-basic:
+  test-noop:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -32,15 +32,16 @@ jobs:
         continue-on-error: true
         with:
           github_token: ${{ github.token }}
+          root_options: "-v --noop"
           tag: v1.0.0
 
-      - name: Assert action ran (succeeded or failed gracefully on sentinel repo)
+      - name: Assert action ran in noop mode (succeeded or failed gracefully)
         env:
           OUTCOME: ${{ steps.action.outcome }}
         run: |
           echo "outcome: $OUTCOME"
           if [ "$OUTCOME" = "success" ]; then
-            echo "PASS: action succeeded"
+            echo "PASS: action succeeded in noop mode"
           elif [ "$OUTCOME" = "failure" ]; then
             echo "PASS: action failed gracefully (expected on sentinel repo)"
           else

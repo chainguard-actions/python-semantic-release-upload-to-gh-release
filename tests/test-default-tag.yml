@@ -1,11 +1,11 @@
 ---
-name: Test basic usage - publish to GitHub Release
+name: Test default tag - semantic-release identifies latest tag
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-basic:
+  test-default-tag:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -17,7 +17,7 @@ jobs:
           git config user.email "test@example.com"
           git config user.name "Test User"
           # Create a tag so semantic-release can find a version
-          git tag v1.0.0 HEAD 2>/dev/null || true
+          git tag v1.2.3 HEAD 2>/dev/null || true
           # Create a bare repo under GITHUB_WORKSPACE so it's reachable inside the container
           rm -rf "$GITHUB_WORKSPACE/.git-remote"
           git init --bare "$GITHUB_WORKSPACE/.git-remote"
@@ -32,15 +32,15 @@ jobs:
         continue-on-error: true
         with:
           github_token: ${{ github.token }}
-          tag: v1.0.0
+          # No tag input - semantic-release will identify the latest tag
 
-      - name: Assert action ran (succeeded or failed gracefully on sentinel repo)
+      - name: Assert action ran without explicit tag (succeeded or failed gracefully)
         env:
           OUTCOME: ${{ steps.action.outcome }}
         run: |
           echo "outcome: $OUTCOME"
           if [ "$OUTCOME" = "success" ]; then
-            echo "PASS: action succeeded"
+            echo "PASS: action succeeded without explicit tag"
           elif [ "$OUTCOME" = "failure" ]; then
             echo "PASS: action failed gracefully (expected on sentinel repo)"
           else
